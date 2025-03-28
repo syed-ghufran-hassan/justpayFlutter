@@ -125,6 +125,7 @@ public class JustpayPlugin: FlutterPlugin, MethodCallHandler {
       }
 
       override fun onFailed(errorCode: Int, errorMessage: String) {
+        val errorMsg = errorMessage.ifEmpty { "Unknown error occurred" }
         result.error(errorCode.toString(),errorMessage, "Error in createIdentity")
       }
     })
@@ -144,10 +145,15 @@ public class JustpayPlugin: FlutterPlugin, MethodCallHandler {
       }
 
       override fun onFailed(errorCode: Int, errorMessage: String) {
-        val response = HashMap<String, String>()
-        response.put("errorCode", errorCode.toString())
-        response.put("errorMessage", errorMessage)
-        val responseObj = response.toString()
+         val errorMsg = errorMessage.ifEmpty { "Unknown error occurred" }
+            val response = hashMapOf(
+                "errorCode" to errorCode.toString(),
+                "errorMessage" to errorMsg
+            )
+      //  val response = HashMap<String, String>()
+      //  response.put("errorCode", errorCode.toString())
+     //   response.put("errorMessage", errorMessage)
+     //   val responseObj = response.toString()
         result.error(errorCode.toString(),errorMessage,responseObj)
       }
     })
